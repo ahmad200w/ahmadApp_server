@@ -39,15 +39,17 @@ const Login = async (req, res) => {
               .status(207)
               .json({ message: "User Already Exist. Please Login" });
           }
+         
     
           const user = await userM.create({
-            email, // sanitize: convert email to lowercase
-            password,
+            email , 
+            password
           });
+          console.log("user created");
           res.status(200).json(user);
         } catch (e) {
           console.log(e);
-          res.status(200).json({message:e});
+          res.status(200).json({message:'you have password'});
         }
 
       }

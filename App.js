@@ -9,7 +9,9 @@ const mongooseLink =
   "mongodb+srv://werbung200w:4y6SDvucU5L1Lm1H@ka94.t9hlsdj.mongodb.net/"
 mongoose.connect(mongooseLink);
 
+
 mongoose.connection.on("connected", () => {
+ 
   console.log("mongo connected");
 });
 

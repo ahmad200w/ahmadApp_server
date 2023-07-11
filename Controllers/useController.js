@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const userM = require("../Modules/user.module");
+const addresse =  require("../Modules/addresse.module");
 
 const Login = async (req, res) => {
         try {
@@ -52,10 +53,44 @@ const Login = async (req, res) => {
           res.status(200).json({message:'you have password'});
         }
 
+
       }
+     
+const infoTheAddress = async (req , res) => {
+    try {
+      const { name, nextname,addres,city,totalPreis } = req.body ||{};
+
+      if (!name || !nextname || !addres || !city) {
+        res.status(408).json({ message: "Alle infos sind gefordert" });
+      }
+
+      const oldUser = await addresse.findOne({
+        name, nextname,addres,city
+      });
+
+      if (oldUser) {
+        return res
+          .status(207)
+          .json({ message: "schon bestellt..." });
+      }
+     
+
+      const user = await addresse.create({
+        name, nextname,addres,city
+      });
+      console.log("Addres ist vorhanden");
+      res.status(200).json(user);
+    } catch (e) {
+      console.log(e);
+      res.status(200).json({message:'keine genaue Infos ...'});
+    }
+
+  }
+
     
 
 module.exports = {
   Login,
   Register,
+  infoTheAddress ,
 };

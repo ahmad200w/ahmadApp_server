@@ -1,6 +1,5 @@
-const mongoose = require("mongoose");
-const userM = require("../Modules/user.module");
-const addresse =  require("../Modules/addresse.module");
+const userModule = require("../Modules/user.module");
+const addresse =  require("../Modules/adress.module");
 
 const Login = async (req, res) => {
         try {
@@ -11,7 +10,7 @@ const Login = async (req, res) => {
           if (!(email && password)) {
             res.status(407).send("All inputs are requierd");
           }
-          const user = await userM.findOne({ email });
+          const user = await userModule.findOne({ email });
           //bestätige die Email ....
           if (user) {
             res.status(200).json({ user: user });
@@ -76,7 +75,10 @@ const infoTheAddress = async (req , res) => {
      
 
       const user = await addresse.create({
-        name, nextname,addres,city
+        name,
+         nextname,
+         addres,
+         city
       });
       console.log("Addres ist vorhanden");
       res.status(200).json(user);

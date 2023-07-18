@@ -1,18 +1,22 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const userRouts = require("./routs/userRouts");
+const morgan =require("morgan")
 
 const app = express();
-app.use(express.json());
-require("dotenv").config();
 
-const mongooseLink =
-"mongodb+srv://werbung200w:dUh7N1aUWKujmj6Z@ka94.t9hlsdj.mongodb.net/"
-mongoose.connect(mongooseLink);
+app.use(express.json());
+app.use(morgan('tiny'))
+require("dotenv").config();
+const api =process.env.API_URL
+
+
+mongoose.connect(process.env.mongooseLink);
 
 
 mongoose.connection.on("connected", () => {
  
+  console.log(api)
   console.log("mongo connected");
 });
 
@@ -24,7 +28,7 @@ const product =mongoose.Schema({
 const productN =mongoose.model("/products",product)
 
 app.post("/products",(req,res)=>{
-  const newProduct =new product({
+  const newProduct =new productN({
     name:req.body.name,
     userName:req.body.userName,
     idNummber:req.body.idNummber

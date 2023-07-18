@@ -4,6 +4,7 @@ const userRouts = require("./routs/userRouts");
 
 const app = express();
 app.use(express.json());
+require("dotenv").config();
 
 const mongooseLink =
 "mongodb+srv://werbung200w:dUh7N1aUWKujmj6Z@ka94.t9hlsdj.mongodb.net/"
@@ -20,9 +21,9 @@ const product =mongoose.Schema({
   userName:String,
   idNummber:Number,
 })
-const productN =mongoose.model("/product",product)
+const productN =mongoose.model("/products",product)
 
-app.post("/product",(req,res)=>{
+app.post("/products",(req,res)=>{
   const newProduct =new product({
     name:req.body.name,
     userName:req.body.userName,

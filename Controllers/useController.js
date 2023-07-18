@@ -1,4 +1,4 @@
-const userModule = require("../Modules/user.module");
+const userM = require("../Modules/user.module");
 const addresse =  require("../Modules/adress.module");
 
 const Login = async (req, res) => {
@@ -10,7 +10,7 @@ const Login = async (req, res) => {
           if (!(email && password)) {
             res.status(407).send("All inputs are requierd");
           }
-          const user = await userModule.findOne({ email });
+          const user = await userM.findOne({ email });
           //bestätige die Email ....
           if (user) {
             res.status(200).json({ user: user });
@@ -30,8 +30,7 @@ const Login = async (req, res) => {
           }
     
           const oldUser = await userM.findOne({
-            email , 
-            password
+            email 
           });
     
           if (oldUser) {
@@ -42,14 +41,14 @@ const Login = async (req, res) => {
          
     
           const user = await userM.create({
-            email , 
+            email:email.toLowerCase(), 
             password
           });
           console.log("user created");
           res.status(200).json(user);
         } catch (e) {
           console.log(e);
-          res.status(200).json({message:'you have password'});
+          res.status(200).json({message:'done'});
         }
 
 

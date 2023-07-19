@@ -5,6 +5,7 @@ const {
   infoTheAddress,
   saveTheDate,
   deletById,
+  upDateTheData,
 } = require("../Controllers/useController");
 
 
@@ -14,5 +15,6 @@ userRouts.post("/Register", Register);
 userRouts.post("/addrese", infoTheAddress);
 userRouts.post("/category", saveTheDate);
 userRouts.delete("/:id",deletById)
+userRouts.put("/:id/change",upDateTheData)
 
 module.exports = userRouts;

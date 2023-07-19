@@ -97,11 +97,11 @@ const infoTheAddress = async (req , res) => {
 
 
     })
-    categoryN  =await category.save();
+    categoryN  =await categoryN.save();
     if(!categoryN){
         return res.status(404).send('can"t be created! ')
     }else{
-        res.send(category)
+        res.send(categoryN)
     }
 } 
 

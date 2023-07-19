@@ -2,6 +2,7 @@ const userM = require("../Modules/user.module");
 const addresse = require("../Modules/adress.module");
 
 const category = require("../Modules/category");
+const category = require("../Modules/category");
 
 
 const Login = async (req, res) => {
@@ -132,6 +133,14 @@ const upDateTheData = async(req,res)=>{
     
     
   
+}
+
+const findProduct = async(req,res)=>{
+  const categorys = await category.find();
+  if(!categorys){
+    res.status(500).json({success:false})
+  }
+  res.send(categorys)
 }
 
 module.exports = {

@@ -104,6 +104,17 @@ const infoTheAddress = async (req , res) => {
         res.send(categoryN)
     }
 } 
+const deletById = (req,res)=>{
+  category.findByIdAndRemove(req.params.deletById).then(category=>{
+    if(category){
+      return res.status(200).json({success:true,message:'the category has deleted'})
+    }else{
+      return res.status(404).json({success:false,message:'somting worng'})
+    }
+  }).catch(err=>{
+    res.status(400).json({success:false,error:err})
+  })
+}
 
     
 
@@ -111,5 +122,5 @@ module.exports = {
   Login,
   Register,
   infoTheAddress ,
-  saveTheDate
+  saveTheDate,deletById
 };

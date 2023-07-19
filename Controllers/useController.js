@@ -1,5 +1,7 @@
 const userM = require("../Modules/user.module");
 const addresse =  require("../Modules/adress.module");
+const category = require("./useCategory");
+
 
 const Login = async (req, res) => {
         try {
@@ -87,6 +89,21 @@ const infoTheAddress = async (req , res) => {
     }
 
   }
+  const saveTheDate =async (req,res)=>{
+    let categoryN = new category({
+        name:req.body.name,
+        icon:req.body.icon,
+        color:req.body.color
+
+
+    })
+    categoryN  =await category.save();
+    if(!categoryN){
+        return res.status(404).send('can"t be created! ')
+    }else{
+        res.send(category)
+    }
+} 
 
     
 
@@ -94,4 +111,5 @@ module.exports = {
   Login,
   Register,
   infoTheAddress ,
+  saveTheDate
 };

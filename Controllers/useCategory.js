@@ -1,3 +1,4 @@
+
 const category = require('../Modules/category')
 
 const saveTheDate =async (req,res)=>{
@@ -15,3 +16,4 @@ const saveTheDate =async (req,res)=>{
         res.send(category)
     }
 } 
+module.exports= category

@@ -9,9 +9,10 @@ app.use(express.json());
 app.use(morgan('tiny'))
 require("dotenv").config();
 const api =process.env.API_URL
+mongooseLink ="mongodb+srv://werbung200w:dUh7N1aUWKujmj6Z@ka94.t9hlsdj.mongodb.net/"
 
 
-mongoose.connect(process.env.mongooseLink);
+mongoose.connect(mongooseLink);
 
 
 mongoose.connection.on("connected", () => {
@@ -25,25 +26,21 @@ const product =mongoose.Schema({
   userName:String,
   idNummber:Number,
 })
-const productN =mongoose.model("/products",product)
+const productN =mongoose.model("/product",product)
 
 app.post("/products",(req,res)=>{
-  const newProduct =new productN({
-    name:req.body.name,
-    userName:req.body.userName,
-    idNummber:req.body.idNummber
+  const newProduct = new productN({
+    name: req.body.name,
+    userName: req.body.userName,
+    idNummber: req.body.idNummber
   })
-  productN.save().then((createProduct)=>{
-    res.status(201).json(createProduct)
-
-  }).catch((err)=>{
-    res.status(500).json({
-      err:err,
-      success:false
-  })
-   
-
-  })
+  newProduct.save((err, createdProduct) => {
+    if (err) {
+      res.status(500).json({ err: err, success: false });
+    } else {
+      res.status(201).json(createdProduct);
+    }
+  });
 
 
 })

@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const userRouts = require("./routs/userRouts");
 const morgan =require("morgan")
-
+const cors =require("cors")
 const app = express();
 
 app.use(express.json());
@@ -77,5 +77,6 @@ app.get("/data",(req,res)=>{
 })
 
 app.use('/',userRouts)
+app.use(cors())
 
 module.exports = app;

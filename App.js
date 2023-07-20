@@ -1,13 +1,10 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const userRouts = require("./routs/userRouts");
-const morgan =require("morgan")
 const cors =require("cors")
 const app = express();
 
 app.use(express.json());
-app.use(morgan('tiny'))
-require("dotenv").config();
 const mongooseLink ="mongodb+srv://werbung200w:dUh7N1aUWKujmj6Z@ka94.t9hlsdj.mongodb.net/"
 
 

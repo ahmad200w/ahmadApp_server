@@ -46,7 +46,7 @@ const Register = async (req, res) => {
     }
 
     const user = await userM.create({
-      email: email.toLowerCase(),
+      email: email,
       password,
     });
     console.log("user created");

@@ -30,6 +30,7 @@ const Register = async (req, res) => {
 
     if (!email || !password) {
       res.status(408).json({ message: "All inputs are required" });
+      return;
     }
 
     const oldUser = await userM.findOne({
@@ -51,6 +52,7 @@ const Register = async (req, res) => {
     });
     console.log("user created");
     res.status(200).json(user);
+    return;
   } catch (e) {
     console.log(e);
     res.status(200).json({ message: "done" });

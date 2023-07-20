@@ -1,8 +1,7 @@
 const userM = require("../Modules/user.module");
 const addresse = require("../Modules/adress.module");
+const category = require("./useCategory");
 
-const category = require("../Modules/category");
-const category = require("../Modules/category");
 
 
 const Login = async (req, res) => {
@@ -99,7 +98,8 @@ const saveTheDate = async (req, res) => {
   }
 };
 const deletById = (req, res) => {
-  category.findById(req.params.id)
+  category
+    .findById(req.params.id)
     .then((category) => {
       if (category) {
         return res
@@ -115,33 +115,31 @@ const deletById = (req, res) => {
       res.status(400).json({ success: false, error: err });
     });
 };
-const upDateTheData = async(req,res)=>{
+const upDateTheData = async (req, res) => {
   const category = await category.findByIdAndUpdate(
     req.params.id,
     {
-      name:req.body.name,
-      icon:req.body.icon,
-      color:req.body.color
-    } ,{new :true} )
-   
-    if (!category) {
-      return res.status(404).send('can"t be created! ');
-    } else {
-      res.send(category);
-    }
-    
-    
-    
-  
-}
+      name: req.body.name,
+      icon: req.body.icon,
+      color: req.body.color,
+    },
+    { new: true }
+  );
 
-const findProduct = async(req,res)=>{
-  const categorys = await category.find();
-  if(!categorys){
-    res.status(500).json({success:false})
+  if (!category) {
+    return res.status(404).send('can"t be created! ');
+  } else {
+    res.send(category);
   }
-  res.send(categorys)
-}
+};
+
+const findProduct = async (req, res) => {
+  const categorys = await category.find();
+  if (!categorys) {
+    res.status(500).json({ success: false });
+  }
+  res.send(categorys);
+};
 
 module.exports = {
   Login,
@@ -150,5 +148,6 @@ module.exports = {
   saveTheDate,
 
   deletById,
-  upDateTheData
+  upDateTheData,
+  findProduct,
 };

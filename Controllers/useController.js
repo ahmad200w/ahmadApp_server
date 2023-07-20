@@ -26,6 +26,8 @@ const Register = async (req, res) => {
   try {
     const { email, password } = req.body || {};
 
+    console.log('body: ' , req.body);
+
     if (!email || !password) {
       res.status(408).json({ message: "All inputs are required" });
     }

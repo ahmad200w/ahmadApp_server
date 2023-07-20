@@ -42,10 +42,7 @@ const Register = async (req, res) => {
         .status(207)
         .json({ message: "User Already Exist. Please Login" });
     }
-    if(email && password){
-      
-    }
-
+  
     const user = await userM.create({
       email: email,
       password,

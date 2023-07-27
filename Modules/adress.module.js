@@ -7,6 +7,7 @@ const addresse = new mongoose.Schema({
     addres:{type:String ,require:true},
     city:{type:String ,require:true},
     totalPreis:{type:String },
+
     
 })
 

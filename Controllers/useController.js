@@ -1,6 +1,10 @@
 const userM = require("../Modules/user.module");
 const addresse = require("../Modules/adress.module");
 const category = require("./useCategory");
+const {
+  hashPassword,
+  comparePassword
+}= require('../helpers/auth')
 
 
 
@@ -9,7 +13,7 @@ const Login = async (req, res) => {
     //     التحقق من وجود معلومات المستخدم
     const { email, password } = req.body || {};
 
-    if (!(email && password)) {
+    if (!(email && password )) {
       res.status(407).send("All inputs are requierd");
     }
     const user = await userM.findOne({ email });
@@ -17,7 +21,21 @@ const Login = async (req, res) => {
     if (user) {
       res.status(200).json({ user: user });
     }
-  } catch (e) {
+
+    // check if password equel the password ...
+
+    const match = await comparePassword(password,userM.password)
+    if(match){
+      res.status(200).json('password is equel hash Password..')
+
+    }
+    else{
+      res.status(400).json('password is not matched ')
+    }
+   
+    
+  }
+   catch (e) {
     console.log(e);
   }
 };
@@ -26,13 +44,13 @@ const Register = async (req, res) => {
   try {
     const { email, password } = req.body || {};
 
-    console.log('body: ' , req.body);
+   
 
     if (!email || !password) {
       res.status(408).json({ message: "All inputs are required" });
       return;
     }
-
+// check if the password in DB....
     const oldUser = await userM.findOne({
       email,
     });
@@ -40,20 +58,26 @@ const Register = async (req, res) => {
     if (oldUser) {
       return res
         .status(207)
-        .json({ message: "User Already Exist. Please Login" });
+        .json({ message: "User Already Exist" });
     }
+  
+    // hash the password  ....
+    const hashedPassword = await hashPassword(password)
   
     const user = await userM.create({
       email: email,
-      password,
+      password :hashedPassword,
     });
+    console.log(password)
     console.log("user created");
     res.status(200).json(user);
     return;
+
   } catch (e) {
     console.log(e);
-    res.status(200).json({ message: "done" });
+   
   }
+  res.status(200).json({ message: "done" });
 };
 
 const infoTheAddress = async (req, res) => {

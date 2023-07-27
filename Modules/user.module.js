@@ -3,7 +3,6 @@ const addresse =  require('../Modules/adress.module')
 const userM = new mongoose.Schema({
     email:{type:String,require:true,unique:true},
     password:{type:String,require:true},
-    addresse :[addresse]
 
 })
 

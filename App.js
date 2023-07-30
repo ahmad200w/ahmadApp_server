@@ -17,9 +17,7 @@ mongoose.connection.on("connected", () => {
   console.log("mongo connected");
 });
 
-app.use(cookieParser())
-app.use(express.urlencoded)
-app.use('/',userRouts)
+
 app.use(cors())
 
 module.exports = app;

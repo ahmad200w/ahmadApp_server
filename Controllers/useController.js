@@ -27,11 +27,13 @@ const Login = async (req, res) => {
     // check if password equel the password ...
 
     const match = await comparePassword(password,userM.password)
-    if(match){
-      jwt.sign({email:user.email,id:user._id},process.env.JWT_SECRET,{},(err,token)=>{
-        if(err)throw err
-        res.cookie('token',token).json(user)
-      })
+    JWT_SECRET ="LLDWDCEWEFIBJFKFO2323R3EFF"
+
+    if(user&& match){
+     const token = jwt.sign({email:user.email,id:user._id},JWT_SECRET)
+       
+     user.token = token
+     res.status(200).json({ user: user });
 
     }
     if(!match){

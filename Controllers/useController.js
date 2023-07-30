@@ -30,7 +30,7 @@ const Login = async (req, res) => {
     JWT_SECRET ="LLDWDCEWEFIBJFKFO2323R3EFF"
 
     if(user&& match){
-     const token = jwt.sign({email:user.email,id:user._id},JWT_SECRET)
+     const token = jwt.sign({email:user.email,id:user._id},JWT_SECRET);
        
      user.token = token
      res.status(200).json({ user: user });
@@ -73,6 +73,9 @@ const Register = async (req, res) => {
   
     // hash the password  ....
     const hashedPassword = await hashPassword(password)
+    JWT_SECRET ="LLDWDCEWEFIBJFKFO2323R3EFF"
+    const token = jwt.sign({email:user.email,id:user._id},JWT_SECRET);
+    user.token = token
   
     const user = await userM.create({
       email: email,

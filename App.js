@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const userRouts = require("./routs/userRouts");
 const cors =require("cors")
 const app = express();
+const cookieParser = require('cookie-parser')
 
 app.use(express.json());
 const mongooseLink ="mongodb+srv://werbung200w:dUh7N1aUWKujmj6Z@ka94.t9hlsdj.mongodb.net/"
@@ -16,7 +17,8 @@ mongoose.connection.on("connected", () => {
   console.log("mongo connected");
 });
 
-
+app.use(cookieParser())
+app.use(express.urlencoded)
 app.use('/',userRouts)
 app.use(cors())
 

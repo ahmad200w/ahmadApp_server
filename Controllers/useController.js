@@ -5,8 +5,7 @@ const {
   hashPassword,
   comparePassword
 }= require('../helpers/auth')
-const jwt =require('jsonwebtoken');
-const { token } = require("morgan");
+
 
 
 
@@ -27,21 +26,8 @@ const Login = async (req, res) => {
     // check if password equel the password ...
 
     const match = await comparePassword(password,userM.password)
-    JWT_SECRET ="LLDWDCEWEFIBJFKFO2323R3EFF"
 
-    if(user&& match){
-     const token = jwt.sign({email:user.email,id:user._id},JWT_SECRET);
-       
-     user.token = token
-     res.status(200).json({ user: user });
-
-    }
-    if(!match){
-
-
-   
-      res.status(400).json('password is not matched ')
-    }
+  
    
     
   }
@@ -73,9 +59,7 @@ const Register = async (req, res) => {
   
     // hash the password  ....
     const hashedPassword = await hashPassword(password)
-    JWT_SECRET ="LLDWDCEWEFIBJFKFO2323R3EFF"
-    const token = jwt.sign({email:user.email,id:user._id},JWT_SECRET);
-    user.token = token
+  
   
     const user = await userM.create({
       email: email,

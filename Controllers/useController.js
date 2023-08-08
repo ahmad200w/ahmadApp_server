@@ -25,9 +25,8 @@ const Login = async (req, res) => {
 
     // check if password equel the password ...
 
-    const match = await comparePassword(password,userM.password)
+    const match = await comparePassword(userM.password,password)
 
-  
    
     
   }

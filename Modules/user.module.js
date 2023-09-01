@@ -1,9 +1,11 @@
 const  mongoose  = require("mongoose")
-const addresse =  require('../Modules/adress.module');
+
 
 const userM = new mongoose.Schema({
+    userName :{type: String,require:true},
     email:{type:String,require:true,unique:true},
     password:{type:String,require:true},
+   
   
 
 })

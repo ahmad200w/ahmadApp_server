@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt')
 
 
+
 const hashPassword = (password)=>{
     return new Promise((resolve,reject)=>{
         bcrypt.genSalt(10,(err,salt)=>{
@@ -22,7 +23,12 @@ const hashPassword = (password)=>{
 
 const comparePassword =(password,hashed)=>{
 
-    return bcrypt.compare(password,hashed)
+    return bcrypt.compare(password,hashed).then((result) => {
+        return result;
+      })
+      .catch((err) => {
+        throw err; // يمكنك التعامل مع الخطأ هنا أو إعادة رميه للأعلى للتعامل معه في مكان آخر.
+      });
 }
 module.exports ={
     hashPassword,

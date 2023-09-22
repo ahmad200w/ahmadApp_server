@@ -1,16 +1,17 @@
-const userM = require("../Modules/user.module");
+const userModule = require("../Modules/user.module");
 
 const { hashPassword, comparePassword } = require("../helpers/auth");
 
 const Login = async (req, res) => {
   try {
     //     التحقق من وجود معلومات المستخدم
-    const { userName, email, password } = req.body || {};
+    const { userName, email, password } = req.body ;
+    console.log(req.body)
 
     if (!(userName && email && password)) {
       res.status(407).send("All inputs are requierd");
     }
-    const user = await userM.findOne({ email });
+    const user = await userModule.findOne({ email });
     //bestätige die Email ....
     if (user) {
       res.status(200).json({ user: user });
@@ -18,7 +19,7 @@ const Login = async (req, res) => {
 
     // check if password equel the password ...
 
-    const match = await comparePassword(userM.password, password);
+    const match = await comparePassword(user.password, password);
     if (match) {
       res.status(200).json({ message: "done" });
     }
@@ -29,14 +30,14 @@ const Login = async (req, res) => {
 
 const Register = async (req, res) => {
   try {
-    const { userName, email, password } = req.body || {};
+    const { userName, email, password } = req.body ;
 
     if (!userName || !email || !password) {
       res.status(408).json({ message: "All inputs are required" });
       return;
     }
     // check if the password in DB....
-    const oldUser = await userM.findOne({
+    const oldUser = await userModule.findOne({
       email,
     });
 
@@ -45,21 +46,25 @@ const Register = async (req, res) => {
     }
 
     // hash the password  ....
-    const hashedPassword = await hashPassword(password);
+      const hashedPassword = await hashPassword(password);
 
-    const user = await userM.create({
+    const user = await userModule.create({
       userName: userName,
       email: email,
       password: hashedPassword,
     });
-    console.log(password);
-    console.log("user created");
+    console.log(user)
+  
     res.status(200).json(user);
     return;
-  } catch (e) {
+  } 
+  catch (e) {
     console.log(e);
+    res.status(500).json({ message: "An error occurred" });
+
+    
   }
-  res.status(200).json({ message: "done" });
+ 
 };
 
 module.exports = {

@@ -1,4 +1,4 @@
-const userModule = require("../Modules/user.module");
+const userM = require("../Modules/user.module");
 
 const { hashPassword, comparePassword } = require("../helpers/auth");
 
@@ -11,7 +11,7 @@ const Login = async (req, res) => {
     if (!(userName && email && password)) {
       res.status(407).send("All inputs are requierd");
     }
-    const user = await userModule.findOne({ email });
+    const user = await userM.findOne({ email });
     //bestätige die Email ....
     if (user) {
       res.status(200).json({ user: user });
@@ -37,7 +37,7 @@ const Register = async (req, res) => {
       return;
     }
     // check if the password in DB....
-    const oldUser = await userModule.findOne({
+    const oldUser = await userM.findOne({
       email,
     });
 
@@ -48,7 +48,7 @@ const Register = async (req, res) => {
     // hash the password  ....
       const hashedPassword = await hashPassword(password);
 
-    const user = await userModule.create({
+    const user = await userM.create({
       userName: userName,
       email: email,
       password: hashedPassword,

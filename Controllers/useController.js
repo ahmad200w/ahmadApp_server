@@ -115,7 +115,7 @@ const sendOrder = async (req, res) => {
   }
 
   try {
-    let user = await userModule.findOne({ email });
+    let user = await userModule.findOneAndUpdate({ email });
 
     if (!user) {
       return res.status(401).json({ message: "User not found" });

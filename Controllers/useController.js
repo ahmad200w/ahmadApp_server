@@ -48,29 +48,40 @@ const Login = async (req, res) => {
     const { userName, email, password } = req.body ;
 
 
-    if (!(userName && email && password)) {
-      res.status(407).send("All inputs are requierd");
+    if (!userName ||!email || !password) {
+      return res.status(407).json({ message: "Email and password are required" });
     }
     const user = await userModule.findOne({ email });
     //bestätige die Email ....
     if (!user) {
-      
-     return res.status(401).json({ massage :"error "});
-    }else{
-      console.log('Sw')
+      return res.status(401).json({ message: "User not found" });
+    } else {
+      console.log('User found:', user);
     }
 
     // check if password equel the password ...
 
-    const match = await comparePassword(user.password, password );
-    console.log(match)
+    const match = await comparePassword(password, user.password);
+
     if (!match) {
-     return res.status(401).json({ message: "no hash" });
+      return res.status(401).json({ message: "Invalid password" });
     }
+    
+
+    if(match){
+
+      return res.status(200).json(user);
+    }
+
+
   } catch (e) {
     console.log(e);
   }
 };
+
+
+
+
 const findeAllUser =async (req, res)=>{
   const {userName}= req.body;
 

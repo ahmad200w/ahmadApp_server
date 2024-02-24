@@ -102,9 +102,40 @@ const findeAllUser =async (req, res)=>{
   }
  
 }
+const sendOrder = async (req, res) => {
+  const { userName, email, password, orders, total } = req.body;
 
+  if (!userName || !email || !password) {
+    return res.status(407).json({ message: "Username, email, and password are required" });
+  }
+
+  // تحقق من صحة بنية البيانات للطلبات والمجموع
+  if (!Array.isArray(orders) || typeof total !== 'number') {
+    return res.status(400).json({ message: "Invalid order data" });
+  }
+
+  try {
+    let user = await userModule.findOne({ email });
+
+    if (!user) {
+      return res.status(401).json({ message: "User not found" });
+    }
+
+    // إضافة طلبات والمجموع للمستخدم
+    user.orders = orders;
+    user.total = total;
+
+    await user.save();
+
+    return res.status(200).json({ message: "Order sent successfully" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
 module.exports = {
   Login,
   Register,
-  findeAllUser
+  findeAllUser,
+  sendOrder
 };

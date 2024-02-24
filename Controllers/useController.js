@@ -116,17 +116,17 @@ const sendOrder = async (req, res) => {
 
   try {
     let user = await userModule.findOne({ email });
-
+  
     if (!user) {
       return res.status(401).json({ message: "User not found" });
     }
-
+  
     // إضافة طلبات والمجموع للمستخدم
     user.orders = orders;
     user.total = total;
-
+  
     await user.save();
-
+  
     return res.status(200).json({ message: "Order sent successfully" });
   } catch (error) {
     console.error(error);

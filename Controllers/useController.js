@@ -110,12 +110,10 @@ const sendOrder = async (req, res) => {
   }
 
   // تحقق من صحة بنية البيانات للطلبات والمجموع
-  if (!Array.isArray(orders) || typeof total !== 'number') {
-    return res.status(400).json({ message: "Invalid order data" });
-  }
+ 
 
   try {
-    let user = await userModule.findOne({ email });
+    let user = await userModule.findOneAndUpdate({ email },{orders,total});
   
     if (!user) {
       return res.status(401).json({ message: "User not found" });
@@ -123,7 +121,7 @@ const sendOrder = async (req, res) => {
   
     // إضافة طلبات والمجموع للمستخدم
     user.orders = orders;
-    user.total = total;
+    user.total =total;
   
     await user.save();
   

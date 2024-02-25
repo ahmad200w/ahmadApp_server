@@ -118,6 +118,13 @@ const sendOrder = async (req, res) => {
     if (!user) {
       return res.status(401).json({ message: "User not found" });
     }
+
+    const match = await comparePassword(password, user.password);
+
+    if (!match) {
+      return res.status(401).json({ message: "Invalid password" });
+    }
+    
   
     // إضافة طلبات والمجموع للمستخدم
     user.orders = orders;

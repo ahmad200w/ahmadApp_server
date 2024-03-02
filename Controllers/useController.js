@@ -103,7 +103,7 @@ const findeAllUser =async (req, res)=>{
  
 }
 const sendOrder = async (req, res) => {
-  const { userName, email,  orders, total } = req.body;
+  const { userName, email, password, orders, total } = req.body;
 
   if (!userName || !email) {
     return res.status(407).json({ message: "Username, email, and password are required" });
@@ -119,7 +119,12 @@ const sendOrder = async (req, res) => {
       return res.status(401).json({ message: "User not found" });
     }
 
-   
+    const match = await comparePassword(password, user.password);
+
+    if (!match) {
+      return res.status(401).json({ message: "Invalid password" });
+    }
+    console.log(match)
   
     // إضافة طلبات والمجموع للمستخدم
     user.orders = orders;

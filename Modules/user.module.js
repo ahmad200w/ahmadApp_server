@@ -7,7 +7,7 @@ const userM = new mongoose.Schema({
  orders: [{
     quantity: { type: Number, required: true },
     phoneType: { type: String, required: true },
-    total: { type: Number, required: true }
+   
   }],
 total :{type :Number ,default:0}
 });

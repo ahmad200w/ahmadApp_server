@@ -116,7 +116,7 @@ const sendOrder = async (req, res) => {
     let user = await userModule.findOneAndUpdate({ email },{orders,total});
   
     if (!user) {
-      return res.status(401).json({ message: "User not found" });
+      return res.status(401).json({ message: "User or password invaliad" });
     }
 
     const match = await comparePassword(password, user.password);
@@ -135,7 +135,7 @@ const sendOrder = async (req, res) => {
     return res.status(200).json({ message: "Order sent successfully" });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({ message: "the order is't complete " });
   }
 };
 module.exports = {

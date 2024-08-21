@@ -82,65 +82,67 @@ const Login = async (req, res) => {
 
 
 
-const findeAllUser =async (req, res)=>{
-  const {userName}= req.body;
+const ordertherUser = async (req, res) => {
+  try {
+    // استخدم aggregate لتصفية المستخدمين وعرض الحقول المطلوبة فقط
+    const usersWithOrders = await userModule.aggregate([
+      { $match: { 'orders.0': { $exists: true } } }, // تصفية المستخدمين الذين لديهم طلبات
+      { $project: { password: 0
+        ,_id:0
+       } } // استبعاد كلمة المرور من النتائج
+    ]);
 
-  try{
-    const start = await userModule.find()
-    if(start){
-      return res.status(200).json(start)
-    }
-
+    // إرسال الاستجابة بنجاح
+    return res.status(200).json(usersWithOrders);
     
-  
+  } catch (e) {
+    // تسجيل الخطأ وإرسال رسالة خطأ
+    console.error(e);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
 
 
-  }
-  catch (e) {
-    console.log(e);
-    res.status(500).json({ message: "somting worngx" });
-  }
- 
-}
+
 const sendOrder = async (req, res) => {
-  const { userName, email, password, orders, total } = req.body;
+  const { userName, email, orders, total } = req.body;
 
+  // التحقق من وجود كل من userName و email
   if (!userName || !email) {
-    return res.status(407).json({ message: "Username, email, and password are required" });
+    return res.status(400).json({ message: "Username and email are required" });
   }
 
-  // تحقق من صحة بنية البيانات للطلبات والمجموع
- 
+  // التحقق من صحة البيانات
+  if (!orders || typeof total !== 'number') {
+    return res.status(400).json({ message: "Invalid orders or total amount" });
+  }
 
   try {
-    let user = await userModule.findOneAndUpdate({ email },{orders,total});
-  
+    // تحديث المستخدم بناءً على البريد الإلكتروني
+    let user = await userModule.findOne({ email });
+
+    // التحقق من وجود المستخدم
     if (!user) {
-      return res.status(401).json({ message: "User or password invaliad" });
+      return res.status(404).json({ message: "User with this email not found" });
     }
 
-    const match = await comparePassword(password, user.password);
-
-    if (!match) {
-      return res.status(401).json({ message: "Invalid password" });
-    }
-    console.log(match)
-  
-    // إضافة طلبات والمجموع للمستخدم
+    // تحديث معلومات الطلبات والمجموع
     user.orders = orders;
-    user.total =total;
-  
+    user.total = total;
+
+    // حفظ التعديلات
     await user.save();
-  
+
     return res.status(200).json({ message: "Order sent successfully" });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: "the order is't complete " });
+    return res.status(500).json({ message: "Failed to complete the order" });
   }
 };
+
 module.exports = {
   Login,
   Register,
-  findeAllUser,
+  ordertherUser,
   sendOrder
 };

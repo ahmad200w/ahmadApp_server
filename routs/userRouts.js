@@ -1,9 +1,14 @@
 const express = require("express");
-const { Login, Register, ordertherUser ,sendOrder} = require("../Controllers/useController");
+
+const Login = require("../Controllers/loginController");
+const Register = require("../Controllers/useRegister");
+const usersOrder = require("../Controllers/showOrders");
+const sendOrder = require("../Controllers/sendTheOrder");
+
 const userRouts = express.Router();
 userRouts.post("/sendOrder", sendOrder);
-userRouts.post("/Login", Login);
+userRouts.post("/Login",Login);
 userRouts.post("/Register", Register);
-userRouts.get("/order",ordertherUser)
+userRouts.get("/order",usersOrder)
 
 module.exports = userRouts;

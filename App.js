@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use(userRouts)
 
 app.use(express.json());
-const mongooseLink ="mongodb+srv://werbung200w:dUh7N1aUWKujmj6Z@ka94.t9hlsdj.mongodb.net/"
+const mongooseLink ="mongodb+srv://werbung200w:key@ka94.t9hlsdj.mongodb.net/"
 
 
 mongoose.connect(mongooseLink);
